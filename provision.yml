@@ -1,0 +1,25 @@
+---
+- hosts: dbc-primary:dbc-replica:dbc-pgpool:application
+  sudo:  true
+  vars:
+    doc_root: /var/www/web
+  roles:
+    - init
+- hosts: dbc-primary:dbc-replica
+  sudo:  true
+  vars:
+    doc_root: /var/www/web
+  roles:
+    - postgres
+- hosts: dbc-pgpool
+  sudo:  true
+  vars:
+    doc_root: /var/www/web
+  roles:
+    - init
+- hosts: application
+  sudo:  true
+  vars:
+    doc_root: /var/www/web
+  roles:
+    - init

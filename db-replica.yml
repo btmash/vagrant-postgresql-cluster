@@ -1,8 +1,0 @@
----
-- hosts: all
-  sudo:  true
-  vars:
-    doc_root: /var/www/web
-  roles:
-    - init
-    - postgres
