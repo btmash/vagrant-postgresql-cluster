@@ -1,26 +1,38 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
-  config.vm.define :dbc1 do |dbc1_config|
-    dbc1_config.vm.box = "ubuntu/trusty64"
-    dbc1_config.vm.network "private_network", ip: "10.0.0.5"
+Vagrant.configure("2") do |cluster|
+  cluster.vm.define :dbc1 do |config|
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.network "private_network", ip: "10.0.0.5"
+    config.vm.provision :ansible do |ansible|
+        ansible.playbook = "db-primary.yml"
+    end
   end
 
-  config.vm.define :dbc2 do |dbc2_config|
-    dbc2_config.vm.box = "ubuntu/trusty64"
-    dbc2_config.vm.network "private_network", ip: "10.0.0.4"
+  cluster.vm.define :dbc2 do |config|
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.network "private_network", ip: "10.0.0.4"
+    config.vm.provision :ansible do |ansible|
+        ansible.playbook = "db-replica.yml"
+    end
   end
 
   # DBC Cluster
-  config.vm.define :pgpool do |pgpool_config|
-    pgpool_config.vm.box = "ubuntu/trusty64"
-    pgpool_config.vm.network "private_network", ip: "10.0.0.3"
+  cluster.vm.define :pgpool do |config|
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.network "private_network", ip: "10.0.0.3"
+    config.vm.provision :ansible do |ansible|
+        ansible.playbook = "db-pgpool.yml"
+    end
   end
 
-  config.vm.define :web1 do |web1_config|
-    web1_config.vm.box = "ubuntu/trusty64"
-    web1_config.vm.network "private_network", ip: "10.0.0.2"
+  cluster.vm.define :web1 do |config|
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.network "private_network", ip: "10.0.0.2"
+    config.vm.provision :ansible do |ansible|
+        ansible.playbook = "application.yml"
+    end
   end
 end
 
