@@ -1,0 +1,67 @@
+From DB-1 (and for all DB servers)
+
+apt-get install postgresql
+sudo su - postgres
+psql
+# Postgres CLI Commands
+CREATE ROLE 'username' WITH PASSWORD 'password' CREATEDB LOGIN REPLICATION SUPERUSER
+CREATE DATABASE username
+\q
+# END Postgres CLI commands
+
+vim /etc/postgresql/VERSION_NUMBER/main/postgresql.conf
+  - Update listen_address='*' (or whatever your IPs (comma separated) to listen from might be - this can be restricted further)
+vim /etc/postgresql/VERSION_NUMBER/main/pg_hba.conf
+    - host all username IP_ADDRESS md5
+
+service postgresql restart
+
+## IMPORTANT TUNING VARIABLES
+
+listen_address
+  - which ip address can connect to server. Important for security
+max_connections
+  - max # of sessions that can connect to server. important to not run out of memory.
+shared_buffers
+  - amount of RAM dedicated to hold requests waiting in kernel buffer/cpu
+  - should be 15 - 25% of total memory you dedicate for DB server.
+effective_cache_size
+  - amount of RAM dedicated to tables indexes.
+  - typically 50 - 75% of system memory
+work_mem
+  - amount of memory used for sorting
+  - be very careful on this as it is per-operation. Can chew up memory.
+
+
+## REPLICATION
+
+Followed http://www.rassoc.com/gregr/weblog/2013/02/16/zero-to-postgresql-streaming-replication-in-10-mins/
+
+## INSTALL PGPOOL-2 (separate pool server ideally)
+
+vim /etc/apt/sources.list.d/pgpd.list
+  - deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+apt-get update
+apt-get install pgpool2
+
+vim /etc/pgpool2/pcp.conf
+  - pgpool:e8a48653851e28c69d0506508fb27fc5
+
+create
+
+vim /etc/pgpool2/pgpool.conf
+  - SET UP IN SAME WAY as postgresql server
+
+create pool_passwd file
+  - set up users with passwords in file
+  - drupal:md5478637af468c617dd9e6fffd8a7f6322
+
+## DISADVANTAGES
+  - So much setup!
+  - Potential overhead due to pool (versus figuring out logic in application)
+
+## ADVANTAGES
+  - Can have X replica servers
+  - Can have health checks on servers (so promote replica server to master if current master starts failing)
+  - Connection pool can be limiter to stop db server from getting too many connections and trashing server on that end.
