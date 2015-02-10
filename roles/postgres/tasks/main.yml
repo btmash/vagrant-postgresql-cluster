@@ -15,12 +15,37 @@
       - libpq-dev
       - python-psycopg2
 
-  - name: ensure database is created
+  - name: create users
     sudo: yes
     sudo_user: postgres
-    postgresql_db: name=vagrant
+    postgresql_user:
+      name: "{{ item.name }}"
+      password: "{{ item.pass }}"
+      role_attr_flags: "{{ item.priv }}"
+    with_items: postgresql_users
 
-  - name: ensure user has access to database
+  - name: ensure databases are created
     sudo: yes
     sudo_user: postgres
-    postgresql_user: name=vagrant password=vagrant role_attr_flags=CREATEDB,NOSUPERUSER
+    postgresql_db:
+      name: "{{ item.name }}"
+      owner: "{{ item.owner }}"
+    with_items: postgresql_databases
+
+  - name: Update postgresql conf
+    sudo: yes
+    template:
+      src: postgresql.conf.j2
+      dest: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+
+  - name: Update postgresql access control
+    sudo: yes
+    template:
+      src: pg_hba.conf.j2
+      dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+
+  - name: Restart tomcat7
+    sudo: yes
+    service:
+      name: postgresql
+      state: restarted

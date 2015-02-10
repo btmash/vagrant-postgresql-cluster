@@ -1,0 +1,24 @@
+---
+postgresql_replica: 'off'
+postgresql_users:
+  - name: ghostdb
+    pass: ghostdb
+    priv: CREATEDB,NOSUPERUSER
+  - name: replication
+    pass: replication
+    priv: REPLICATION,LOGIN
+
+postgresql_databases:
+  - name: ghostdb_dev
+    owner: ghostdb
+
+postgresql_allowed_hba:
+  - name: ghostdb
+    database: ghostdb
+    host: 127.0.0.1
+  - name: replication
+    database: replication
+    host: 10.0.0.4
+  - name: ghostdb
+    database: ghostdb
+    host: 10.0.0.3

@@ -1,0 +1,22 @@
+---
+postgresql_replica: 'off'
+postgresql_users:
+  - name: test
+    pass: test
+    priv: CREATEDB,NOSUPERUSER
+  - name: test2
+    pass: test2
+    priv: CREATEDB,NOSUPERUSER
+
+replication_users: []
+
+postgresql_databases:
+  - name: test
+    owner: test
+  - name: test2
+    owner: test2
+
+postgresql_allowed_hba:
+  - name: test
+    database: test
+    host: 127.0.0.1

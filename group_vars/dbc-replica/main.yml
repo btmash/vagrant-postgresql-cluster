@@ -1,0 +1,22 @@
+---
+postgresql_replica: 'on'
+postgresql_primary_ip: 10.0.0.5
+
+postgresql_users: []
+
+postgresql_replication_users:
+  - name: replication
+    pass: replication
+
+postgresql_databases: []
+
+postgresql_allowed_hba:
+  - name: ghostdb
+    database: ghostdb
+    host: 127.0.0.1
+  - name: ghostdb
+    database: ghostdb
+    host: 10.0.0.4
+  - name: ghostdb
+    database: ghostdb
+    host: 10.0.0.3
