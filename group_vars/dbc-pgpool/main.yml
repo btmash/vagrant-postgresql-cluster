@@ -1,4 +1,5 @@
 ---
+# The encoded password is the following format: "md5 + md5_hash(username + password)"
 pgpool_users:
   - name: ghostdb
     pass_enc: md591326114ac505db87f65f90c33687d4b
