@@ -44,7 +44,7 @@
       src: pg_hba.conf.j2
       dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
 
-  - name: Restart tomcat7
+  - name: Restart postgresql
     sudo: yes
     service:
       name: postgresql

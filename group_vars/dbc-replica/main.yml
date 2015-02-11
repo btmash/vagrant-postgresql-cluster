@@ -11,11 +11,11 @@ postgresql_databases: []
 
 postgresql_allowed_hba:
   - name: ghostdb
-    database: ghostdb
+    database: ghostdb_dev
     host: 127.0.0.1
   - name: ghostdb
-    database: ghostdb
+    database: ghostdb_dev
     host: 10.0.0.4
   - name: ghostdb
-    database: ghostdb
+    database: ghostdb_dev
     host: 10.0.0.3

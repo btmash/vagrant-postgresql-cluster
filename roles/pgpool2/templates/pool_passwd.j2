@@ -1,0 +1,3 @@
+{% for user in pgpool_users %}
+{{ user.name }}:{{ user.pass_enc }}
+{% endfor %}
