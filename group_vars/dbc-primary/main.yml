@@ -1,5 +1,10 @@
 ---
 postgresql_replica: 'off'
+postgresql_replication_ip: ''
+postgresql_replication_database: ''
+postgresql_replication_user: ''
+postgresql_replication_pass: ''
+
 postgresql_users:
   - name: ghostdb
     pass: ghostdb
@@ -14,11 +19,11 @@ postgresql_databases:
 
 postgresql_allowed_hba:
   - name: ghostdb
-    database: ghostdb
+    database: ghostdb_dev
     host: 127.0.0.1
   - name: replication
     database: replication
     host: 10.0.0.4
   - name: ghostdb
-    database: ghostdb
+    database: ghostdb_dev
     host: 10.0.0.3

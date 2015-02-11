@@ -1,12 +1,11 @@
 ---
 postgresql_replica: 'on'
-postgresql_primary_ip: 10.0.0.5
+postgresql_replication_ip: 10.0.0.5
+postgresql_replication_database: 'replication'
+postgresql_replication_user: 'replication'
+postgresql_replication_pass: 'replication'
 
 postgresql_users: []
-
-postgresql_replication_users:
-  - name: replication
-    pass: replication
 
 postgresql_databases: []
 

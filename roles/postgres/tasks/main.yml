@@ -49,3 +49,53 @@
     service:
       name: postgresql
       state: restarted
+
+  - name: Check if recovery.conf file exists
+    sudo: yes
+    stat:
+      path: "/etc/postgresql/{{ postgresql_version }}/main/recovery.conf"
+    register: recovery_file
+
+########## SOLELY FOR REPLICATION SERVER ##########
+
+  - name: Stop tomcat7
+    sudo: yes
+    service:
+      name: postgresql
+      state: stopped
+    when: postgresql_replica == 'on'
+
+  - name: Remove current main files
+    sudo: yes
+    sudo_user: postgres
+    command: "rm -rf /var/lib/postgresql/{{ postgresql_version }}/main"
+    when: recovery_file.stat.exists == False and postgresql_replica == 'on'
+
+  - name: Create pgpass file
+    sudo: yes
+    sudo_user: postgres
+    template:
+      src: pgpass.j2
+      dest: "~/.pgpass"
+      mode: 0600
+    when: recovery_file.stat.exists == False and postgresql_replica == 'on'
+
+  - name: Start sync
+    sudo: yes
+    sudo_user: postgres
+    shell: "pg_basebackup -h {{ postgresql_replication_ip }} -D /var/lib/postgresql/{{ postgresql_version }}/main -U {{ postgresql_replication_user }} -v -P -w"
+    when: recovery_file.stat.exists == False and postgresql_replica == 'on'
+
+  - name: Create recovery configuration
+    sudo: yes
+    template:
+      src: recovery.conf.j2
+      dest: "/etc/postgresql/{{ postgresql_version }}/main/recovery.conf"
+    when: postgresql_replica == 'on'
+
+  - name: Start tomcat7
+    sudo: yes
+    service:
+      name: postgresql
+      state: started
+    when: postgresql_replica == 'on'
