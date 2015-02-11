@@ -21,3 +21,4 @@
   sudo:  true
   roles:
     - init
+    - postgres-client
