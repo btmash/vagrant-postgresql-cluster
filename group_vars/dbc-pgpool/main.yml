@@ -1,0 +1,11 @@
+---
+pgpool_users:
+  - name: ghostdb
+    md5_pass: 73b4163fb3066b637f08a1e661acd9ea
+pgpool_allowed_hba:
+  - name: ghostdb
+    database: ghostdb_dev
+    host: 10.0.0.2
+pgpool_servers:
+    - host: 10.0.0.5
+    - host: 10.0.0.4

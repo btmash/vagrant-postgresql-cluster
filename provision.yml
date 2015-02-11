@@ -11,10 +11,12 @@
   sudo:  true
   roles:
     - postgres
+    - postgres-streaming
 - hosts: dbc-pgpool
   sudo:  true
   roles:
     - init
+    - pgpool2
 - hosts: application
   sudo:  true
   roles:

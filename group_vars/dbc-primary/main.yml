@@ -1,9 +1,5 @@
 ---
 postgresql_replica: 'off'
-postgresql_replication_ip: ''
-postgresql_replication_database: ''
-postgresql_replication_user: ''
-postgresql_replication_pass: ''
 
 postgresql_users:
   - name: ghostdb
