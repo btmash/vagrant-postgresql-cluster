@@ -83,7 +83,7 @@
   - name: Start sync
     sudo: yes
     sudo_user: postgres
-    shell: "pg_basebackup -h {{ postgresql_replication_ip }} -D /var/lib/postgresql/{{ postgresql_version }}/main -U {{ postgresql_replication_user }} -v -P -w"
+    shell: "pg_basebackup -h {{ postgresql_replication_ip }} -D /var/lib/postgresql/{{ postgresql_version }}/main -U {{ postgresql_replication_user }}  -X stream -v -P -w"
     when: recovery_file.stat.exists == False and postgresql_replica == 'on'
 
   - name: Create recovery configuration
