@@ -45,8 +45,10 @@
       owner: postgres
       group: postgres
 
+  - name: Pause for 30 seconds
+    pause:
+      seconds: 30
+
   - name: Restart pgpool2
     sudo: yes
-    service:
-      name: pgpool2
-      state: restarted
+    shell: service pgpool2 restart
