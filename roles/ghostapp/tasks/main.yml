@@ -11,7 +11,11 @@
       url: https://ghost.org/zip/ghost-latest.zip
       dest: "{{ ghostapp_dir }}/ghost.zip"
 
-  - name: Unarchive Ghost
+  - name: Pause for 10 seconds
+    pause:
+      seconds: 10
+
+- name: Unarchive Ghost
     sudo: yes
     unarchive:
       src: "{{ ghostapp_dir }}/ghost.zip"

@@ -22,7 +22,7 @@
     sudo_user: postgres
     template:
       src: pgpass.j2
-      dest: "~/.pgpass"
+      dest: "/var/lib/postgresql/.pgpass"
       mode: 0600
     when: recovery_file.stat.exists == False
 
@@ -38,7 +38,7 @@
       src: recovery.conf.j2
       dest: "/etc/postgresql/{{ postgresql_version }}/main/recovery.conf"
 
-  - name: Start tomcat7
+  - name: Start postgres
     sudo: yes
     service:
       name: postgresql
