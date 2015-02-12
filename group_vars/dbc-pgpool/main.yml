@@ -7,6 +7,12 @@ pgpool_allowed_hba:
   - name: ghostdb
     database: ghostdb_dev
     host: 10.0.0.2
+  - name: ghostdb
+    database: ghostdb_stage
+    host: 10.0.0.2
+  - name: ghostdb
+    database: ghostdb_production
+    host: 10.0.0.2
 pgpool_servers:
     - host: 10.0.0.5
     - host: 10.0.0.4

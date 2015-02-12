@@ -1,0 +1,12 @@
+---
+  - name: Create nodejs repo
+    sudo: yes
+    shell: "curl -sL https://deb.nodesource.com/setup | sudo bash -"
+    args:
+      creates: /etc/apt/sources.list.d/nodesource.list
+
+  - name: Install nodejs
+    sudo: yes
+    apt:  pkg={{ item }} state=latest
+    with_items:
+      - nodejs

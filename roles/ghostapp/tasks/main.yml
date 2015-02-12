@@ -1,0 +1,18 @@
+---
+  - name: Create project directory
+    sudo: yes
+    file:
+      path: "{{ ghostapp_dir }}"
+      state: directory
+
+  - name: Get ghost
+    sudo: yes
+    get_url:
+      url: https://ghost.org/zip/ghost-latest.zip
+      dest: "{{ ghostapp_dir }}/ghost.zip"
+
+  - name: Unarchive Ghost
+    sudo: yes
+    unarchive:
+      src: "{{ ghostapp_dir }}/ghost.zip"
+      dest: "{{ ghostapp_dir }}/ghost"

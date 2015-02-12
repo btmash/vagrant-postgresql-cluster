@@ -12,14 +12,18 @@ postgresql_users:
 postgresql_databases:
   - name: ghostdb_dev
     owner: ghostdb
+  - name: ghostdb_stage
+    owner: ghostdb
+  - name: ghostdb_production
+    owner: ghostdb
 
 postgresql_allowed_hba:
-  - name: ghostdb
-    database: ghostdb_dev
-    host: 127.0.0.1
   - name: replication
     database: replication
     host: 10.0.0.4
   - name: ghostdb
-    database: ghostdb_dev
+    database: all
+    host: 127.0.0.1
+  - name: ghostdb
+    database: all
     host: 10.0.0.3

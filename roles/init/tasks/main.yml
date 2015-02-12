@@ -7,13 +7,15 @@
     sudo: yes
     apt:  pkg={{ item }} state=latest
     with_items:
-      - curl
-      - wget
       - build-essential
       - python-software-properties
+      - vim
+      - curl
+      - wget
       - mcrypt
       - git-core
       - git
+      - zip
 
   - name: Update apt again
     sudo: yes
