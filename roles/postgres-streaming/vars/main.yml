@@ -1,0 +1,4 @@
+---
+
+postgresql_service: postgresql
+postgresql_version: 9.3

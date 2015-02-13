@@ -1,2 +1,26 @@
 ---
 ghostapp_dir: /var/www
+ghostapp_domain: 127.0.0.1
+ghostapp_site_url: http://127.0.0.1
+ghostapp_db:
+  prod:
+    host: 127.0.0.1
+    type: postgres
+    user: username
+    pass: password
+    database: ghostdb_prod
+    charset: utf8
+  test:
+    host: 127.0.0.1
+    type: postgres
+    user: username
+    pass: password
+    database: ghostdb_test
+    charset: utf8
+  dev:
+    host: 127.0.0.1
+    type: postgres
+    user: username
+    pass: password
+    database: ghostdb_dev
+    charset: utf8

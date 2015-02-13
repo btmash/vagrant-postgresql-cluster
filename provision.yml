@@ -3,23 +3,21 @@
   sudo:  true
   roles:
     - init
-- hosts: dbc-primary
+- hosts: dbc-primary:dbc-replica
   sudo:  true
   roles:
     - postgres
 - hosts: dbc-replica
   sudo:  true
   roles:
-    - postgres
     - postgres-streaming
 - hosts: dbc-pgpool
   sudo:  true
   roles:
-    - init
     - pgpool2
 - hosts: application
   sudo:  true
   roles:
-    - init
     - postgres-client
     - nodejs
+    - ghostapp

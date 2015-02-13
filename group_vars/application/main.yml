@@ -1,2 +1,26 @@
 ---
 ghostapp_dir: /var/www
+ghostapp_domain: 10.0.0.2
+ghostapp_site_url: http://10.0.0.2
+ghostapp_db:
+  prod:
+    host: 10.0.0.3
+    type: postgres
+    user: ghostdb
+    pass: ghostdb
+    database: ghostdb_production
+    charset: utf8
+  test:
+    host: 10.0.0.3
+    type: postgres
+    user: ghostdb
+    pass: ghostdb
+    database: ghostdb_stage
+    charset: utf8
+  dev:
+    host: 10.0.0.3
+    type: postgres
+    user: ghostdb
+    pass: ghostdb
+    database: ghostdb_dev
+    charset: utf8

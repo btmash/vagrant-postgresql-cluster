@@ -2,7 +2,7 @@
   - name: Create project directory
     sudo: yes
     file:
-      path: "{{ ghostapp_dir }}"
+      path: "{{ ghostapp_dir }}/ghost"
       state: directory
 
   - name: Get ghost
@@ -10,13 +10,41 @@
     get_url:
       url: https://ghost.org/zip/ghost-latest.zip
       dest: "{{ ghostapp_dir }}/ghost.zip"
+      force: no
+
+  - name: Unarchive Ghost
+    sudo: yes
+    unarchive:
+      src: "{{ ghostapp_dir }}/ghost.zip"
+      dest: "{{ ghostapp_dir }}/ghost"
+      copy: no
+      creates: "{{ ghostapp_dir }}/ghost/index.js"
+
+  - name: Start install
+    sudo: yes
+    command: "npm install --production"
+    args:
+      chdir: "{{ ghostapp_dir }}/ghost"
+
+  - name: Update config.js
+    sudo: yes
+    template:
+      src: config.js.j2
+      dest: "{{ ghostapp_dir }}/ghost/config.js"
+
+  - name: Install upstart
+    sudo: yes
+    template:
+      src: ghost.conf.j2
+      dest: /etc/init.d/ghost
+      mode: 0755
 
   - name: Pause for 10 seconds
     pause:
       seconds: 10
 
-- name: Unarchive Ghost
+  - name: Start ghost
     sudo: yes
-    unarchive:
-      src: "{{ ghostapp_dir }}/ghost.zip"
-      dest: "{{ ghostapp_dir }}/ghost"
+    service:
+      name: ghost
+      state: restarted
