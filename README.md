@@ -6,6 +6,6 @@ This sets up a postgresql cluster consisting of one primary (master) server, one
 ansible-playbook -i ./vagrant-inventory provision.yml --ask-pass --ask-sudo-pass
 ```
 
-You can specify the password / sudo password in the inventory file...but that would be pretty insecure, wouldn't it?
+You can specify the password / sudo password in the inventory file...but that would be pretty insecure, wouldn't it? If you use it for local development (ie with vagrant), it will automatically run the playbook when you run vagrant up and vagrant provision.
 
 Next goal will be to proxy from ngnix to node and to do more interesting things with pgpool to get a better understanding of promoting a replica to primary (and vice versa).
