@@ -21,3 +21,4 @@
     - postgres-client
     - nodejs
     - ghostapp
+    - nginx
