@@ -1,0 +1,33 @@
+---
+  - name: Add Logstash repo key
+    sudo: yes
+    shell: "wget -O - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -"
+
+  - name: Create Logstash repo
+    sudo: yes
+    lineinfile:
+      dest: /etc/apt/sources.list.d/logstash.list
+      line: 'deb http://packages.elasticsearch.org/logstash/{{ logstash_forwarder_version }}/debian stable main'
+      create: yes
+
+  - name: Update apt
+    sudo: yes
+    apt:  update_cache=yes
+
+  - name: Install elasticsearch
+    sudo: yes
+    apt:  pkg={{ item }} state=latest force=yes
+    with_items:
+      - logstash-forwarder
+
+  - name: Create certs directory
+    sudo: yes
+    file:
+      path: "{{ logstash_forwarder_ssl_cert_dir }}"
+      state: directory
+      follow: yes
+
+  - name: Copy cert from local tmp
+    fetch:
+      src: /tmp/logstash-forwarder.crt
+      dest: "{{ logstash_server_ssl_cert_dir }}/logstash-forwarder.crt"
