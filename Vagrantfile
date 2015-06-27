@@ -34,9 +34,9 @@ Vagrant.configure("2") do |cluster|
     ansible.playbook = "provision.yml"
     ansible.groups = {
       "dbc-primary" => ["dbc1"],
-      # "dbc-replica" => ["dbc2"],
-      # "dbc-pgpool" => ["pgpool"],
-      # "application" => ["web1"],
+      "dbc-replica" => ["dbc2"],
+      "dbc-pgpool" => ["pgpool"],
+      "application" => ["web1"],
       "monitoring-elk" => ["elk1"]
     }
   end
