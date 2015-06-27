@@ -6,7 +6,7 @@
   - name: Create Logstash repo
     sudo: yes
     lineinfile:
-      dest: /etc/apt/sources.list.d/logstash.list
+      dest: /etc/apt/sources.list.d/logstash-server.list
       line: 'deb http://packages.elasticsearch.org/logstash/{{ logstash_server_version }}/debian stable main'
       create: yes
 
@@ -14,7 +14,7 @@
     sudo: yes
     apt:  update_cache=yes
 
-  - name: Install elasticsearch
+  - name: Install logstash
     sudo: yes
     apt:  pkg={{ item }} state=latest force=yes
     with_items:
@@ -44,11 +44,13 @@
   - name: Create cert and key
     sudo: yes
     shell: "openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout {{ logstash_server_private_key_dir }}/logstash-forwarder.key -out {{ logstash_server_ssl_cert_dir }}/logstash-forwarder.crt"
+    args:
+      creates: "{{ logstash_server_ssl_cert_dir}}/logstash-forwarder.crt"
 
   - name: Copy cert locally
     fetch:
       src: "{{ logstash_server_ssl_cert_dir }}/logstash-forwarder.crt"
-      dest: /tmp
+      dest: /tmp/logstash-forwarder.crt
       flat: yes
 
   - name: Add lumberjack input conf
@@ -71,3 +73,9 @@
       src: 30-lumberjack.conf.j2
       dest: /etc/logstash/conf.d/30-lumberjack.conf
       mode: 0644
+
+  - name: Restart logstash server
+    sudo: yes
+    service:
+      name: logstash
+      state: restarted

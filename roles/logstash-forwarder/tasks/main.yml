@@ -6,8 +6,8 @@
   - name: Create Logstash repo
     sudo: yes
     lineinfile:
-      dest: /etc/apt/sources.list.d/logstash.list
-      line: 'deb http://packages.elasticsearch.org/logstash/{{ logstash_forwarder_version }}/debian stable main'
+      dest: /etc/apt/sources.list.d/logstash-forwarder.list
+      line: 'deb http://packages.elasticsearch.org/logstashforwarder/debian stable main'
       create: yes
 
   - name: Update apt
@@ -28,6 +28,19 @@
       follow: yes
 
   - name: Copy cert from local tmp
-    fetch:
+    copy:
       src: /tmp/logstash-forwarder.crt
-      dest: "{{ logstash_server_ssl_cert_dir }}/logstash-forwarder.crt"
+      dest: "{{ logstash_forwarder_ssl_cert_dir }}/logstash-forwarder.crt"
+
+  - name: Create logstash forwarder config
+    sudo: yes
+    template:
+      src: logstash-forwarder.conf.j2
+      dest: /etc/logstash-forwarder.conf
+      mode: 0644
+
+  - name: Restart logstash forwarder
+    sudo: yes
+    service:
+      name: logstash-forwarder
+      state: restarted
