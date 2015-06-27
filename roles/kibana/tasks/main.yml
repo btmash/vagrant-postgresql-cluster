@@ -32,7 +32,7 @@
   - name: Set Kibana network to localhost
     sudo: yes
     lineinfile:
-      dest: /etc/elasticsearch/elasticsearch.yml
+      dest: "{{ kibana_root }}/kibana/config/kibana.yml"
       line: 'host: "localhost"'
       regexp: '^host'
 
