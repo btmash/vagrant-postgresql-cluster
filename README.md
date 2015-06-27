@@ -13,3 +13,5 @@ With a vagrant setup, you would access this at: http://10.0.0.2
 You can specify the password / sudo password in the inventory file...but that would be pretty insecure, wouldn't it? The best approach would be to use ssh keys instead so you don't rely on asking for passwords. If you use it for local development (ie with vagrant), it will automatically run the playbook when you run vagrant up and vagrant provision.
 
 Next goal will be to proxy from ngnix to node and to do more interesting things with pgpool to get a better understanding of promoting a replica to primary (and vice versa).
+
+I've now also added the [ELK stack](https://www.elastic.co/webinars/introduction-elk-stack) as part of the whole server. Right now, it only processes auth.log, syslog but it is a start towards understanding centralized server logging.
