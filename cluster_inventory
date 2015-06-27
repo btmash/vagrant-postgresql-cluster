@@ -1,7 +1,11 @@
+elk1 ansible_ssh_host=10.0.0.6 ansible_ssh_user=vagrant
 dbc1 ansible_ssh_host=10.0.0.5 ansible_ssh_user=vagrant
 dbc2 ansible_ssh_host=10.0.0.4 ansible_ssh_user=vagrant
 pgpool ansible_ssh_host=10.0.0.3 ansible_ssh_user=vagrant
 web1 ansible_ssh_host=10.0.0.2 ansible_ssh_user=vagrant
+
+[monitoring-elk]
+elk1
 
 [dbc-primary]
 dbc1
