@@ -8,7 +8,7 @@ ansible-playbook -i ./cluster-inventory provision.yml --ask-pass --ask-sudo-pass
 
 If you decide to use the above command with your vagrant setup, the password at both prompts is 'vagrant' (minus the quotes).
 
-With a vagrant setup, you would access this at: http://10.0.0.2. You'll need to do final setup on the blog (to go to a config url) to get your account set up and ready to blog.
+With a vagrant setup, you would access this at: http://10.0.0.2. You'll need to do final setup on the blog (to go to a http://10.0.0.2/admin for example) to get your account set up and ready to blog.
 
 You can specify the password / sudo password in the inventory file...but that would be pretty insecure, wouldn't it? The best approach would be to use ssh keys instead so you don't rely on asking for passwords. If you use it for local development (ie with vagrant), it will automatically run the playbook when you run vagrant up and vagrant provision.
 
