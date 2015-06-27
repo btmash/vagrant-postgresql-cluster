@@ -7,6 +7,7 @@
   sudo:  true
   roles:
     - postgres
+    - logstash-forwarder
 - hosts: dbc-replica
   sudo:  true
   roles:
@@ -15,6 +16,7 @@
   sudo:  true
   roles:
     - pgpool2
+    - logstash-forwarder
 - hosts: application
   sudo:  true
   roles:
@@ -23,13 +25,14 @@
     - ghostapp
     - nginx
     - nginx-ghost
+    - logstash-forwarder
 - hosts: monitoring-elk
   sudo: true
   roles:
     - java
-    - elasticsearch
     - nodejs
-    - kibana
-    # - logstash
     - nginx
+    - elasticsearch
+    - logstash-server
+    - kibana
     - nginx-kibana

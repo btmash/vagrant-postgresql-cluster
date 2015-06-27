@@ -2,6 +2,11 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |cluster|
+  cluster.vm.define :elk1 do |config|
+    config.vm.box = "ubuntu/trusty64"
+   config.vm.network "private_network", ip: "10.0.0.6"
+  end
+
   cluster.vm.define :dbc1 do |config|
     config.vm.box = "ubuntu/trusty64"
     config.vm.network "private_network", ip: "10.0.0.5"
@@ -22,18 +27,13 @@ Vagrant.configure("2") do |cluster|
    config.vm.network "private_network", ip: "10.0.0.2"
   end
 
-  cluster.vm.define :elk1 do |config|
-    config.vm.box = "ubuntu/trusty64"
-   config.vm.network "private_network", ip: "10.0.0.6"
-  end
-
   cluster.vm.provision :ansible do |ansible|
     ansible.playbook = "provision.yml"
     ansible.groups = {
       "dbc-primary" => ["dbc1"],
-      "dbc-replica" => ["dbc2"],
-      "dbc-pgpool" => ["pgpool"],
-      "application" => ["web1"],
+      # "dbc-replica" => ["dbc2"],
+      # "dbc-pgpool" => ["pgpool"],
+      # "application" => ["web1"],
       "monitoring-elk" => ["elk1"]
     }
   end

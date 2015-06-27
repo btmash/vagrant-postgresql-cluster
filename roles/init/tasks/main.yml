@@ -16,7 +16,6 @@
       - git-core
       - git
       - zip
-      - golang
 
   - name: Update apt again
     sudo: yes
