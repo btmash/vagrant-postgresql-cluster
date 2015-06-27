@@ -1,0 +1,38 @@
+---
+  - name: Create elasticsearch repo
+    sudo: yes
+    lineinfile:
+      dest: /etc/apt/sources.list.d/elasticsearch.list
+      line: 'deb http://packages.elastic.co/elasticsearch/1.6/debian stable main'
+      create: yes
+
+  - name: Add elasticsearch repo key
+    sudo: yes
+    shell: "wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -"
+
+  - name: Update apt
+    sudo: yes
+    apt:  update_cache=yes
+
+  - name: Install elasticsearch
+    sudo: yes
+    apt:  pkg={{ item }} state=latest force=yes
+    with_items:
+      - elasticsearch
+
+  - name: Set elasticsearch network to localhost
+    sudo: yes
+    lineinfile:
+      dest: /etc/elasticsearch/elasticsearch.yml
+      line: 'network.host: localhost'
+      regexp: 'network\.host'
+
+  - name: Enable elasticsearch on boot
+    sudo: yes
+    shell: 'update-rc.d elasticsearch defaults 95 10'
+
+  - name: Restart elasticsearch
+    sudo: yes
+    service:
+      name: elasticsearch
+      state: restarted
