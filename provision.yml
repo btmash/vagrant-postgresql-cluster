@@ -3,29 +3,6 @@
   sudo:  true
   roles:
     - init
-- hosts: dbc-primary:dbc-replica
-  sudo:  true
-  roles:
-    - postgres
-    - logstash-forwarder
-- hosts: dbc-replica
-  sudo:  true
-  roles:
-    - postgres-streaming
-- hosts: dbc-pgpool
-  sudo:  true
-  roles:
-    - pgpool2
-    - logstash-forwarder
-- hosts: application
-  sudo:  true
-  roles:
-    - postgres-client
-    - nodejs
-    - ghostapp
-    - nginx
-    - nginx-ghost
-    - logstash-forwarder
 - hosts: monitoring-elk
   sudo: true
   roles:
@@ -36,3 +13,26 @@
     - kibana
     - nginx-kibana
     - logstash-server
+- hosts: dbc-primary:dbc-replica
+  sudo:  true
+  roles:
+    - logstash-forwarder
+    - postgres
+- hosts: dbc-replica
+  sudo:  true
+  roles:
+    - postgres-streaming
+- hosts: dbc-pgpool
+  sudo:  true
+  roles:
+    - logstash-forwarder
+    - pgpool2
+- hosts: application
+  sudo:  true
+  roles:
+    - logstash-forwarder
+    - postgres-client
+    - nodejs
+    - ghostapp
+    - nginx
+    - nginx-ghost
