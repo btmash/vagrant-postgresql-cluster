@@ -33,6 +33,6 @@
     - nodejs
     - nginx
     - elasticsearch
-    - logstash-server
     - kibana
     - nginx-kibana
+    - logstash-server
