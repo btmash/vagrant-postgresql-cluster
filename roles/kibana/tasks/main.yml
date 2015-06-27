@@ -1,0 +1,54 @@
+---
+  - name: Remove current Kibana
+    sudo: yes
+    shell: "rm -rf /opt/kibana"
+
+  - name: Create Kibana project directory
+    sudo: yes
+    file:
+      path: "{{ kibana_root }}/kibana"
+      state: directory
+      follow: yes
+
+  - name: Get Kibana
+    sudo: yes
+    get_url:
+      url: "https://download.elastic.co/kibana/kibana/kibana-{{ kibana_version }}-linux-x64.tar.gz"
+      dest: "~/kibana.tar.gz"
+      force: no
+
+  - name: Unarchive Kibana
+    sudo: yes
+    unarchive:
+      src: "~/kibana.tar.gz"
+      dest: "~"
+      copy: no
+      creates: "~/kibana-{{ kibana_version }}-linux-x64/README.txt"
+
+  - name: Move Kibana
+    sudo: yes
+    shell: "cp -Rf ~/kibana-{{ kibana_version }}-linux-x64/* {{ kibana_root }}/kibana"
+
+  - name: Set Kibana network to localhost
+    sudo: yes
+    lineinfile:
+      dest: /etc/elasticsearch/elasticsearch.yml
+      line: 'host: "localhost"'
+      regexp: '^host'
+
+  - name: Install upstart
+    sudo: yes
+    template:
+      src: kibana.j2
+      dest: /etc/init.d/kibana
+      mode: 0755
+
+  - name: Enable Kibana on boot
+    sudo: yes
+    shell: 'update-rc.d kibana defaults 96 9'
+
+  - name: Restart Kibana
+    sudo: yes
+    service:
+      name: kibana
+      state: restarted
