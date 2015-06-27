@@ -1,5 +1,5 @@
 ---
-- hosts: dbc-primary:dbc-replica:dbc-pgpool:application
+- hosts: dbc-primary:dbc-replica:dbc-pgpool:application:monitoring-elk
   sudo:  true
   roles:
     - init
@@ -22,3 +22,14 @@
     - nodejs
     - ghostapp
     - nginx
+    - nginx-ghost
+- hosts: monitoring-elk
+  sudo: true
+  roles:
+    - java
+    - elasticsearch
+    - nodejs
+    - kibana
+    # - logstash
+    - nginx
+    - nginx-kibana
