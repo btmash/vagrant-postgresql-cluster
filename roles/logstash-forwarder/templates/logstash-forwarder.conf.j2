@@ -3,7 +3,7 @@
   # TODO: Make servers dynamic
   "network": {
     "servers": [ "10.0.0.6:5000" ],
-    "ssl ca": "{{ logstash_forwarder_ssl_cert_dir}}/logstash-forwarder.crt",
+    "ssl ca": "{{ logstash_forwarder_ssl_cert_dir }}/logstash-forwarder.crt",
     "timeout": 15
   },
   "files": [
@@ -13,6 +13,12 @@
         "/var/log/auth.log"
        ],
       "fields": { "type": "syslog" }
+    },
+    {
+      "paths": [
+        "/var/log/nginx/access.log"
+      ],
+      "fields": { "type": "nginx-access" }
     }
   ]
 }

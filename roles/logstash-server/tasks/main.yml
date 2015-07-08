@@ -20,6 +20,21 @@
     with_items:
       - logstash
 
+  - name: Create logstash patterns directory
+    sudo: yes
+    file:
+      path: "/opt/logstash/patterns"
+      state: directory
+      follow: yes
+
+  - name: Add nginx access pattern conf
+    sudo: yes
+    template:
+      src: nginx-pattern.j2
+      dest: /opt/logstash/patterns/nginx
+      owner: logstash
+      group: logstash
+
   - name: Create certs directory
     sudo: yes
     file:
@@ -65,6 +80,13 @@
     template:
       src: 10-syslog.conf.j2
       dest: /etc/logstash/conf.d/10-syslog.conf
+      mode: 0644
+
+  - name: Add nginx filter conf
+    sudo: yes
+    template:
+      src: 20-nginx.conf.j2
+      dest: /etc/logstash/conf.d/20-nginx.conf
       mode: 0644
 
   - name: Add lumberjack output conf

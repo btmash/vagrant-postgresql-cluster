@@ -1,7 +1,7 @@
 server {
     listen 0.0.0.0:80 default_server;
     server_name ghost.local "";
-    access_log /var/log/nginx/*your-domain-name*.log;
+    access_log /var/log/nginx/access.log;
 
     location / {
         proxy_set_header X-Real-IP $remote_addr;
