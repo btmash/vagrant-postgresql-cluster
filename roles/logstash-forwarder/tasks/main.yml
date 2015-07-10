@@ -1,9 +1,9 @@
 ---
-  - name: Add Logstash repo key
+  - name: Add Logstash fowarder repo key
     sudo: yes
     shell: "wget -O - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -"
 
-  - name: Create Logstash repo
+  - name: Create Logstash forwarder repo
     sudo: yes
     lineinfile:
       dest: /etc/apt/sources.list.d/logstash-forwarder.list
@@ -14,7 +14,7 @@
     sudo: yes
     apt:  update_cache=yes
 
-  - name: Install elasticsearch
+  - name: Install logstash forwarder
     sudo: yes
     apt:  pkg={{ item }} state=latest force=yes
     with_items:
